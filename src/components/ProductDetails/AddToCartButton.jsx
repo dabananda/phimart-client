@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaCheck, FaShoppingCart } from "react-icons/fa";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
 const AddToCartButton = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
 
   const increaseQuantity = () => {
     if (quantity < product.stock) {
@@ -15,6 +17,18 @@ const AddToCartButton = ({ product }) => {
     if (quantity < product.stock) {
       setQuantity(quantity - 1);
     }
+  };
+
+  const addToCart = () => {
+    setIsAdding(true);
+    setTimeout(() => {
+      setIsAdding(false);
+      setIsAdded(true);
+
+      setTimeout(() => {
+        setIsAdded(false);
+      }, 2000);
+    }, 1000);
   };
 
   return (
@@ -42,10 +56,27 @@ const AddToCartButton = ({ product }) => {
           <FaPlus className="h-4 w-4" />
         </button>
       </div>
-      <button className="btn btn-primary w-full">
-        <span className="flex items-center">
-          <FaShoppingCart className="mr-2 h-4 w-4"></FaShoppingCart>
-        </span>
+      <button
+        className="btn btn-primary w-full"
+        onClick={addToCart}
+        disabled={isAdding || isAdded || product.stock === 0}
+      >
+        {isAdding ? (
+          <span className="flex items-center">
+            <span className="loading loading-spinner loading-sm mr-2"></span>
+            Adding to cart
+          </span>
+        ) : isAdded ? (
+          <span className="flex items-center">
+            <FaCheck className="mr-2 h-4 w-4"></FaCheck>
+            Added to cart
+          </span>
+        ) : (
+          <span className="flex items-center">
+            <FaShoppingCart className="mr-2 h-4 w-4"></FaShoppingCart>
+            Add to cart
+          </span>
+        )}
       </button>
     </div>
   );
