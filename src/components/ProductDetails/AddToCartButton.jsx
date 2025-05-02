@@ -64,7 +64,7 @@ const AddToCartButton = ({ product }) => {
         {isAdding ? (
           <span className="flex items-center">
             <span className="loading loading-spinner loading-sm mr-2"></span>
-            Adding to cart
+            Adding...
           </span>
         ) : isAdded ? (
           <span className="flex items-center">
